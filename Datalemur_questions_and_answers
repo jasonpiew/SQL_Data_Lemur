@@ -1,0 +1,60 @@
+Question 1 - EASY - Data Science Skills
+Given a table of candidates and their skills, you're tasked with finding the candidates best suited for an open Data Science job. You want to find candidates who are proficient in Python, Tableau, and PostgreSQL.
+Write a query to list the candidates who possess all of the required skills for the job. Sort the the output by candidate ID in ascending order.
+
+Answer :
+SELECT 
+  candidate_id 
+FROM 
+  candidates
+WHERE skill IN ('Python','Tableau','PostgreSQL')
+GROUP BY 
+  candidate_id
+HAVING 
+  COUNT(*) = 3
+
+Explanations: We use HAVING function & count to filter in the user that possess 3 needed skills.
+
+Question 2 - EASY - Page With No Likes
+Assume you are given the tables below about Facebook pages and page likes. Write a query to return the page IDs of all the Facebook pages that don't have any likes. The output should be in ascending order.
+
+Answer : 
+SELECT
+	page_id
+FROM
+	pages AS p
+LEFT JOIN page_likes AS pl
+		USING(page_id)
+GROUP BY
+	page_id
+HAVING
+	count(liked_date) = 0
+
+Explanations : by using LEFT JOIN, we will be able to get all the page_id FROM pages, even the one without like. Then using the HAVING function to chose the page_id without like.
+
+Question 3 - EASY - Unfinished Parts 
+Tesla is investigating bottlenecks in their production, and they need your help to extract the relevant data. Write a SQL query that determines which parts have begun the assembly process but are not yet finished.
+
+Answer : 
+SELECT
+	DISTINCT part
+FROM
+	parts_assembly
+WHERE
+	finish_date IS NULL;
+
+Explanation : WHERE clause is used to find out the product that is not finished, then we use DISTINCT to select 1 value only per part.
+
+Question 4 - EASY - Laptop vs. Mobile Viewership
+Assume that you are given the table below containing information on viewership by device type (where the three types are laptop, tablet, and phone). Define “mobile” as the sum of tablet and phone viewership numbers. Write a query to compare the viewership on laptops versus mobile devices.
+
+Output the total viewership for laptop and mobile devices in the format of "laptop_views" and "mobile_views".
+
+Answer :
+SELECT
+	SUM(CASE WHEN device_type IN ('phone', 'tablet') THEN 1 ELSE 0 END) AS mobile_views,
+	SUM(CASE WHEN device_type = 'laptop' THEN 1 ELSE 0 END) AS laptop_views
+FROM
+	viewership;
+  
+Explanation : we can add SUM function inside the CASE WHEN to find out the total views of mobile and laptop.   
